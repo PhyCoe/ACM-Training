@@ -1,0 +1,117 @@
+= Interview-1
+
+== 题目
+
+一、假设公司的部门（Department）结构如下所示：
+
+====
+Android 研发部 -> 客户端研发部 -> 研发部 -> 公司
+====
+
+其中，-> 左侧是子（Child）部门，右侧是上级（Parent）部门，每个部门仅有一个上级部门。
+
+1. 请设计关系型数据库表结构来存储上述部门结构（满足范式要求）。
+2. 假设每名员工（Employee）仅属于某一个部门，请设计关系型数据库表结构来存储员工与部门的关系。
+3. 编写程序实现：给定员工和部门，给出员工是否在这个部门。
+
+二、现有资源（Resource）和权限（Permission）表，字段如下：
+
+.资源表
+[cols="2", width="50%", frame="topbot", options="header"]
+|====
+| 字段 | 含义
+| id | 主键
+| name | 资源名称
+|====
+
+
+.权限表
+[cols="2", width="50%", frame="topbot", options="header"]
+|====
+| 字段 | 含义
+| id | 主键
+| name | 权限名称
+| resource_id | 资源 ID
+| action | 操作
+|====
+
+1. 请设计关系型数据库表结构实现『为某个部门赋予权限』的需求（满足范式要求）。
+2. 编写代码实现：给定员工和资源，查询其所具有该资源的权限列表。
+
+三、假设每个部门（Department）有且仅有一个直属上级（Leader）字段，示例如下：
+
+1. 请设计关系型数据库表结构及编写相关代码，实现『赋予某个部门的所有上级具有某项权限』的需求（满足范式要求）。
+2. 编写代码实现：给定员工和资源，查询其所具有的该资源的权限列表。
+
+TIP: 『部门的所有上级』是指部门及所有上级部门的直属上级的集合。
+
+四、尝试使用 Redis 作为缓存组件优化上述需求中的查询性能。
+
+1. 请注意设计缓存的更新策略。
+
+== 运行
+
+安装 Docker 环境，进入 `docker` 目录下，执行命令： `docker-compose -p iv up web`。
+
+== 答题要求
+
+=== 关于题目
+
+==== 语言
+
+本题目非常简单，现实中很多应届生从来没有接触过 Python 花三天时间就可以完成作答，对于一名优秀的工程师语言从来都不是门槛。
+
+此外，我们正在搭建 Golang 版本的答题系统。
+
+==== 流程
+
+整个答题过程实际上是日常开发的简化版，所以请不要以『不熟悉 Gerrit Code Review 工作流』等借口来拒绝使用 Gerrit 作答。
+
+==== 标准
+
+请以你日常工作中最高的标准来完成编码，包括但不限于边界检查、防御式编程、异常处理、抽象与封装等。职业化也是考察的一个方面。
+
+=== 答题流程
+
+请使用我们专门为答题准备的 Gerrit Code Review 系统footnote:[https://www.gerritcodereview.com/]完成答题过程，Git 仓库地址：
+
+```
+git clone https://ee.bytedance.net/interview/gerrit/interview-1
+```
+
+请提交 Code Review 到你的 `${username}` 分支。提交的结果可以完成完整的测试。
+
+[NOTE]
+====
+. 本 Gerrit Web 界面地址： https://ee.bytedance.net/interview/gerrit/ 。
+. 本 Gerrit 使用 GitHub OAuth2.0 认证登录，登录后用户名为你在 GitHub 的用户名。
+. 本 Gerrit 仅支持 **HTTPS** 协议，请不要使用 SSH 协议克隆或推送代码。
+. 本 Gerrit 仅能看到 master 分支和『以自己用户名同名的分支』，请先在 Web 界面创建以『自己用户名同名的分支』： https://ee.bytedance.net/interview/gerrit/#/admin/projects/interview-1,branches。
+====
+
+NOTE: Gerrit 的教程请参考：link::https://ee.bytedance.net/interview/gerrit/Documentation/intro-user.html[]
+
+=== 字段命名规范
+
+. 后缀与类型：
+.. 主键、外键等使用 id 后缀，为整型。
+.. 以 status、type 为后缀的字段名明确为整型，如枚举，按位存储等。
+.. 后缀 time 为时间型、后缀 date 为日期型，譬如不要使用 start_date 作为一个时间型字段。
+.. 以 key、title、label、name、description、uri、url 等为后缀的字段名明确为字符型。
+. 不要使用对象名作为**简单类型**的字段名，为其增加可识别其类型的后缀，如：uri、key 等。
+.. 头像不要使用 `avatar` 作为字段名，使用 `avatar_key` 或者 `avatar_url`。
+.. 字段名 `user` 不知道是 `user_id` 还是 `user_name`。 
+
+=== 编码规范
+
+代码必须符合 PEP8 规范，可忽略一下几项：`--ignore=W293,E402,E501,E251`。
+
+=== Commit Message 规范
+
+Commit Message 请参考阮一峰老师教程中的规范来书写，参考地址：
+
+```
+http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html
+```
+
+NOTE: 请候选人一定要注意规范化，职业化，请严格按照题目要求来作答，感谢配合。

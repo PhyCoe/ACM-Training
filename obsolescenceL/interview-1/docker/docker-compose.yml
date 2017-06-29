@@ -1,0 +1,18 @@
+version: "2"
+services:
+ web:
+  image: python:3-alpine
+  command: sh bin/run-test
+  working_dir: /interview-1
+  volumes:
+   - ..:/interview-1
+  links:
+   - mysql
+   - redis
+ mysql:
+  image: mysql
+  environment:
+   MYSQL_DATABASE: interview
+   MYSQL_ROOT_PASSWORD: 123
+ redis:
+  image: redis:alpine
